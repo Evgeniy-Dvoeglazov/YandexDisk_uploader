@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/yandex_disk_uploader/static/css/main.236dd931.css",
-    "main.js": "/yandex_disk_uploader/static/js/main.862a46f8.js",
+    "main.js": "/yandex_disk_uploader/static/js/main.41a8b670.js",
     "static/js/787.18ba3198.chunk.js": "/yandex_disk_uploader/static/js/787.18ba3198.chunk.js",
     "static/media/Inter-Medium.woff?v=3.19": "/yandex_disk_uploader/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
     "static/media/Inter-Black.woff?v=3.19": "/yandex_disk_uploader/static/media/Inter-Black.c6938660eec019fefd68.woff",
@@ -12,11 +12,11 @@
     "static/media/preloader.gif": "/yandex_disk_uploader/static/media/preloader.9e20fc96e99c75828f77.gif",
     "index.html": "/yandex_disk_uploader/index.html",
     "main.236dd931.css.map": "/yandex_disk_uploader/static/css/main.236dd931.css.map",
-    "main.862a46f8.js.map": "/yandex_disk_uploader/static/js/main.862a46f8.js.map",
+    "main.41a8b670.js.map": "/yandex_disk_uploader/static/js/main.41a8b670.js.map",
     "787.18ba3198.chunk.js.map": "/yandex_disk_uploader/static/js/787.18ba3198.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.236dd931.css",
-    "static/js/main.862a46f8.js"
+    "static/js/main.41a8b670.js"
   ]
 }
