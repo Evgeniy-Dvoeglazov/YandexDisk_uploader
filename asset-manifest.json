@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/yandex_disk_uploader/static/css/main.45a6211c.css",
-    "main.js": "/yandex_disk_uploader/static/js/main.147c73b7.js",
+    "main.css": "/yandex_disk_uploader/static/css/main.ee4acd83.css",
+    "main.js": "/yandex_disk_uploader/static/js/main.07301769.js",
     "static/js/787.18ba3198.chunk.js": "/yandex_disk_uploader/static/js/787.18ba3198.chunk.js",
     "static/media/Inter-Medium.woff?v=3.19": "/yandex_disk_uploader/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
     "static/media/Inter-Black.woff?v=3.19": "/yandex_disk_uploader/static/media/Inter-Black.c6938660eec019fefd68.woff",
@@ -11,12 +11,12 @@
     "static/media/Inter-Regular.woff2?v=3.19": "/yandex_disk_uploader/static/media/Inter-Regular.c8ba52b05a9ef10f4758.woff2",
     "static/media/preloader.gif": "/yandex_disk_uploader/static/media/preloader.9e20fc96e99c75828f77.gif",
     "index.html": "/yandex_disk_uploader/index.html",
-    "main.45a6211c.css.map": "/yandex_disk_uploader/static/css/main.45a6211c.css.map",
-    "main.147c73b7.js.map": "/yandex_disk_uploader/static/js/main.147c73b7.js.map",
+    "main.ee4acd83.css.map": "/yandex_disk_uploader/static/css/main.ee4acd83.css.map",
+    "main.07301769.js.map": "/yandex_disk_uploader/static/js/main.07301769.js.map",
     "787.18ba3198.chunk.js.map": "/yandex_disk_uploader/static/js/787.18ba3198.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.45a6211c.css",
-    "static/js/main.147c73b7.js"
+    "static/css/main.ee4acd83.css",
+    "static/js/main.07301769.js"
   ]
 }
