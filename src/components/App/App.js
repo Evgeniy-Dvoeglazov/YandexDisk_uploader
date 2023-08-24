@@ -8,25 +8,20 @@ import { apiDisk } from '../../utils/DiskApi';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  IS_LOADING, IS_UPLOAD_SUCCESS, IS_SERVER_ERROR,
-  IS_AUTH, TOKEN, AUTH_ERROR
+  IS_LOADING,
+  IS_UPLOAD_SUCCESS,
+  IS_SERVER_ERROR,
+  IS_AUTH,
+  TOKEN,
+  AUTH_ERROR
 } from '../../utils/constants';
 
 function App() {
 
   const dispatch = useDispatch();
-  // const isLoading = useSelector(state => state.isLoading.isLoading);
-  // const isUploadSuccess = useSelector(state => state.isUploadSuccess.isUploadSuccess);
 
   const isAuth = useSelector(state => state.auth.isAuth);
   const tokenInfo = useSelector(state => state.token.tokenInfo);
-
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [isUploadSuccess, setIsUploadSuccess] = useState(false);
-  // const [isServerError, setIsServerError] = useState(false);
-  // const [isAuth, setIsAuth] = useState(false);
-  // const [tokenInfo, setTokenInfo] = useState({});
-  // const [isAuthError, setIsAuthError] = useState(false);
 
   function setIsLoadingAction(condition) {
     dispatch({ type: IS_LOADING, payload: condition })

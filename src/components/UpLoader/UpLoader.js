@@ -13,6 +13,7 @@ import {
 function UpLoader(props) {
 
   const dispatch = useDispatch();
+
   const selectedFiles = useSelector(state => state.selectedFiles.selectedFiles);
   const isMaxFiles = useSelector(state => state.maxFiles.isMaxFiles);
   const isLoading = useSelector(state => state.loading.isLoading);
@@ -27,22 +28,6 @@ function UpLoader(props) {
     isDragAccept,
     isDragReject,
   } = useDropzone();
-
-  function addSelectedFilesAction(acceptedFiles) {
-    dispatch({ type: ADD_FILES, payload: acceptedFiles })
-  }
-
-  function removeSelectedFilesAction() {
-    dispatch({ type: REMOVE_All_FILES, payload: [] })
-  }
-
-  function removeSelectedFileAction(file) {
-    dispatch({ type: REMOVE_FILE, payload: file.path })
-  }
-
-  function setIsMaxFilesAction(condition) {
-    dispatch({ type: IS_MAX_FILES, payload: condition })
-  }
 
   const maxFiles = 100;
 
@@ -88,6 +73,22 @@ function UpLoader(props) {
       removeSelectedFilesAction();
     }
   }, [isUploadSuccess])
+
+  function addSelectedFilesAction(acceptedFiles) {
+    dispatch({ type: ADD_FILES, payload: acceptedFiles })
+  }
+
+  function removeSelectedFilesAction() {
+    dispatch({ type: REMOVE_All_FILES, payload: [] })
+  }
+
+  function removeSelectedFileAction(file) {
+    dispatch({ type: REMOVE_FILE, payload: file.path })
+  }
+
+  function setIsMaxFilesAction(condition) {
+    dispatch({ type: IS_MAX_FILES, payload: condition })
+  }
 
   function onSubmit() {
     props.deleteAuthError();
