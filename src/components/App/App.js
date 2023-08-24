@@ -5,50 +5,85 @@ import Footer from '../Footer/Footer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import EmptyPage from '../EmptyPage/EmptyPage';
 import { apiDisk } from '../../utils/DiskApi';
-import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  IS_LOADING, IS_UPLOAD_SUCCESS, IS_SERVER_ERROR,
+  IS_AUTH, TOKEN, AUTH_ERROR
+} from '../../utils/constants';
 
 function App() {
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isUploadSuccess, setIsUploadSuccess] = useState(false);
-  const [isServerError, setIsServerError] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
-  const [tokenInfo, setTokenInfo] = useState({});
-  const [isAuthError, setIsAuthError] = useState(false);
+  const dispatch = useDispatch();
+  // const isLoading = useSelector(state => state.isLoading.isLoading);
+  // const isUploadSuccess = useSelector(state => state.isUploadSuccess.isUploadSuccess);
+
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const tokenInfo = useSelector(state => state.token.tokenInfo);
+
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [isUploadSuccess, setIsUploadSuccess] = useState(false);
+  // const [isServerError, setIsServerError] = useState(false);
+  // const [isAuth, setIsAuth] = useState(false);
+  // const [tokenInfo, setTokenInfo] = useState({});
+  // const [isAuthError, setIsAuthError] = useState(false);
+
+  function setIsLoadingAction(condition) {
+    dispatch({ type: IS_LOADING, payload: condition })
+  }
+
+  function setIsUploadSuccessAction(condition) {
+    dispatch({ type: IS_UPLOAD_SUCCESS, payload: condition })
+  }
+
+  function setIsServerErrorAction(condition) {
+    dispatch({ type: IS_SERVER_ERROR, payload: condition })
+  }
+
+  function setIsAuthAction(condition) {
+    dispatch({ type: IS_AUTH, payload: condition })
+  }
+
+  function addTokenAction(token) {
+    dispatch({ type: TOKEN, payload: token })
+  }
+
+  function setIsAuthErrorAction(condition) {
+    dispatch({ type: AUTH_ERROR, payload: condition })
+  }
 
   function uploadFiles(data, tokenData) {
 
     const uploadfile = data.getAll('files');
 
     uploadfile.forEach((file) => {
-      setIsLoading(true);
+      setIsLoadingAction(true);
       apiDisk.getUrl(file, tokenData)
         .then((res) => {
-          setIsLoading(true);
+          setIsLoadingAction(true);
           apiDisk.uploadFiles(res.href, file)
             .then(() => {
-              setIsUploadSuccess(true);
+              setIsUploadSuccessAction(true);
             })
             .catch((err) => {
               console.log(err);
-              setIsServerError(true);
+              setIsServerErrorAction(true);
             })
             .finally(() => {
-              setIsLoading(false);
+              setIsLoadingAction(false);
             });
         })
         .catch((err) => {
           console.log(err);
-          setIsServerError(true);
-          setIsLoading(false);
+          setIsServerErrorAction(true);
+          setIsLoadingAction(false);
         })
     })
   }
 
   function upload(data) {
 
-    setIsLoading(true);
+    setIsLoadingAction(true);
     if (!isAuth) {
       window.YaAuthSuggest.init(
         {
@@ -64,13 +99,13 @@ function App() {
         .then(tokenData => {
           console.log('Сообщение с токеном', tokenData);
           uploadFiles(data, tokenData);
-          setTokenInfo(tokenData);
-          setIsAuth(true);
+          addTokenAction(tokenData);
+          setIsAuthAction(true);
         })
         .catch(error => {
           console.log('Обработка ошибки', error);
-          setIsAuthError(true);
-          setIsLoading(false);
+          setIsAuthErrorAction(true);
+          setIsLoadingAction(false);
         });
     }
     else {
@@ -79,13 +114,13 @@ function App() {
   }
 
   function deleteUploadInfo() {
-    setIsUploadSuccess(false);
-    setIsServerError(false);
-    setIsAuthError(false);
+    setIsUploadSuccessAction(false);
+    setIsServerErrorAction(false);
+    setIsAuthErrorAction(false);
   }
 
   function deleteAuthError() {
-    setIsAuthError(false);
+    setIsAuthErrorAction(false);
   }
 
   return (
@@ -96,11 +131,7 @@ function App() {
             <Header />
             <UpLoader
               upload={upload}
-              isLoading={isLoading}
-              isUploadSuccess={isUploadSuccess}
               deleteUploadInfo={deleteUploadInfo}
-              isServerError={isServerError}
-              isAuthError={isAuthError}
               deleteAuthError={deleteAuthError}
             />
             <Footer />

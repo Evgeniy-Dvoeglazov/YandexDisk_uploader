@@ -1,9 +1,24 @@
 import './UpLoader.css';
 import { useDropzone } from 'react-dropzone';
 import preloader from '../../images/preloader.gif'
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  ADD_FILES,
+  REMOVE_All_FILES,
+  REMOVE_FILE,
+  IS_MAX_FILES
+} from '../../utils/constants';
 
 function UpLoader(props) {
+
+  const dispatch = useDispatch();
+  const selectedFiles = useSelector(state => state.selectedFiles.selectedFiles);
+  const isMaxFiles = useSelector(state => state.maxFiles.isMaxFiles);
+  const isLoading = useSelector(state => state.loading.isLoading);
+  const isUploadSuccess = useSelector(state => state.uploadSuccess.isUploadSuccess);
+  const isServerError = useSelector(state => state.serverError.isServerError);
+  const isAuthError = useSelector(state => state.authError.isAuthError);
 
   const {
     acceptedFiles,
@@ -13,10 +28,23 @@ function UpLoader(props) {
     isDragReject,
   } = useDropzone();
 
-  const maxFiles = 100;
+  function addSelectedFilesAction(acceptedFiles) {
+    dispatch({ type: ADD_FILES, payload: acceptedFiles })
+  }
 
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [isMaxFiles, setIsMaxFiles] = useState(false);
+  function removeSelectedFilesAction() {
+    dispatch({ type: REMOVE_All_FILES, payload: [] })
+  }
+
+  function removeSelectedFileAction(file) {
+    dispatch({ type: REMOVE_FILE, payload: file.path })
+  }
+
+  function setIsMaxFilesAction(condition) {
+    dispatch({ type: IS_MAX_FILES, payload: condition })
+  }
+
+  const maxFiles = 100;
 
   const files = selectedFiles.map(file => {
 
@@ -30,38 +58,36 @@ function UpLoader(props) {
           <p className='uploader__file-name'>{file.path}</p>
           <p className='uploader__file-size'>{(file.size / 1000000).toFixed(3)} Мб</p>
         </div>
-        <button className={`uploader__delete-btn ${props.isLoading ? 'uploader__delete-btn_invisible' : ''}`} type='button' aria-label='delete-btn' onClick={handleDeleteFile}></button>
+        <button className={`uploader__delete-btn ${isLoading ? 'uploader__delete-btn_invisible' : ''}`} type='button' aria-label='delete-btn' onClick={handleDeleteFile}></button>
       </li>
     )
   });
 
   useEffect(() => {
-    if ((props.isServerError || props.isUploadSuccess || props.isAuthError) && acceptedFiles.length === 0) {
+    if ((isServerError || isUploadSuccess || isAuthError) && acceptedFiles.length === 0) {
       props.deleteUploadInfo();
     }
   }, [acceptedFiles.length])
 
   useEffect(() => {
     if (acceptedFiles.length !== 0) {
-      setSelectedFiles((currentFiles) => currentFiles.concat([...acceptedFiles]).filter((value, index, self) =>
-        index === self.findIndex((t) => (
-          t.path === value.path))))
+      addSelectedFilesAction(acceptedFiles)
     }
   }, [acceptedFiles])
 
   useEffect(() => {
     if (selectedFiles.length <= maxFiles || selectedFiles.length === 0) {
-      setIsMaxFiles(false);
+      setIsMaxFilesAction(false);
     } else {
-      setIsMaxFiles(true);
+      setIsMaxFilesAction(true);
     }
   }, [selectedFiles.length])
 
   useEffect(() => {
-    if (props.isUploadSuccess) {
-      setSelectedFiles([]);
+    if (isUploadSuccess) {
+      removeSelectedFilesAction();
     }
-  }, [props.isUploadSuccess])
+  }, [isUploadSuccess])
 
   function onSubmit() {
     props.deleteAuthError();
@@ -74,7 +100,7 @@ function UpLoader(props) {
   }
 
   function deleteFile(file) {
-    setSelectedFiles((currentFiles) => currentFiles.filter((currentFile) => currentFile.path !== file.path));
+    removeSelectedFileAction(file);
   }
 
   return (
@@ -88,19 +114,19 @@ function UpLoader(props) {
         <h2 className='uploader__dropzone-title'>Перетащите файлы в эту область или нажмите, чтобы выбрать их</h2>
         <em className='uploader__dropzone-rule'>(Максимальное количество файлов - 100)</em>
       </div>
-      {props.isLoading
+      {isLoading
         ?
         <img className='uploader__preloader' src={preloader} alt='иконка загрузки' />
         :
         <button className={
           `uploader__button
-        ${(selectedFiles.length !== 0 && selectedFiles.length <= maxFiles && !props.isUploadSuccess) ? '' : 'uploader__button_disabled'}`
+        ${(selectedFiles.length !== 0 && selectedFiles.length <= maxFiles && !isUploadSuccess) ? '' : 'uploader__button_disabled'}`
         } type='submit' onClick={onSubmit}>Загрузить файлы на Я.Диск</button>
       }
-      {props.isUploadSuccess && <p className='uploader__success-text'>Файлы успешно загружены</p>}
-      {props.isServerError && <p className='uploader__error'>Что-то пошло не так</p>}
-      {props.isAuthError && <p className='uploader__error'>Ошибка авторизации</p>}
-      {!props.isUploadSuccess &&
+      {isUploadSuccess && <p className='uploader__success-text'>Файлы успешно загружены</p>}
+      {isServerError && <p className='uploader__error'>Что-то пошло не так</p>}
+      {isAuthError && <p className='uploader__error'>Ошибка авторизации</p>}
+      {!isUploadSuccess &&
         <aside className='uploader__files'>
           {
             selectedFiles.length === 0
