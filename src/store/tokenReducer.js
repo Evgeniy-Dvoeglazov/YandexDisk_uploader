@@ -4,7 +4,7 @@ const initialState = {
   tokenInfo: {},
 }
 
-export const uploadSuccessReducer = (state = initialState, action) => {
+export const tokenReducer = (state = initialState, action) => {
   switch (action.type) {
     case TOKEN:
       return {
